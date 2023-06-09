@@ -21,4 +21,14 @@ public class Arco<T> {
 		return etiqueta;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		Arco<?> arco2 = (Arco<?>) o;
+		if ((this.getVerticeOrigen() == arco2.getVerticeOrigen() && (this.getVerticeDestino() == arco2.getVerticeDestino()))) {
+			return true;
+		}else if((this.getVerticeOrigen() == arco2.getVerticeDestino() && (this.getVerticeDestino() == arco2.getVerticeOrigen()))) {
+			return true;
+		}
+		return false;
+	}
 }

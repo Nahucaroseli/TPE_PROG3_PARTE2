@@ -36,23 +36,27 @@ public class Main {
 		
 		
 		String path = "C:\\Users\\Nahue\\eclipse-workspace\\Prog3_TPE\\src\\datasets\\dataset2.txt";
-		CSVReader reader = new CSVReader(path);
-		
-		reader.read(grafo);
-		/*
-		Backtracking back = new Backtracking(grafo);
+		String path2 = "C:\\Users\\s7\\IdeaProjects\\TPE P2\\src\\datasets\\dataset1.txt";
+		CSVReader reader = new CSVReader(path2);
+		GrafoNoDirigido grafoNoDirigido = new GrafoNoDirigido();
+
+		reader.read(grafoNoDirigido);
+
+		Backtracking back = new Backtracking(grafoNoDirigido);
 		back.backtracking();
 		
 		
-		/*
+	/*
 		ServicioDFS dfs = new ServicioDFS(grafo);
 		ServicioBFS bfs = new ServicioBFS(grafo);
 		System.out.println(dfs.dfsForest());
 		System.out.println(bfs.bfsForest());
-	
-	*/
+
+
 		ServicioCaminos caminos = new ServicioCaminos(grafo,2,6,4);
 		System.out.println(caminos.caminos());
+		*/
+
 	}
 
 }

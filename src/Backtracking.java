@@ -6,7 +6,7 @@ public class Backtracking {
 	
 	private Grafo<?> grafo;
 	private int costoMejorSolucion;
-	private List<List<Integer>> mejorSolucion;
+	private List<List<Arco>> mejorSolucion;
 	
 	
 	public Backtracking(Grafo<?> grafo) {
@@ -16,16 +16,15 @@ public class Backtracking {
 	}
 	
 	public void backtracking() {
-	    List<List<Integer>> solucionActual = new ArrayList<>();
-	    List<Integer> caminoActual = new ArrayList<>();
-	    caminoActual.add(1);
-	    backtracking(1, solucionActual, caminoActual, 0);
+	    List<List<Arco>> solucionActual = new ArrayList<>();
+	    List<Arco> caminoActual = new ArrayList<>();
+	    backtracking( solucionActual, caminoActual, 0);
 
 	    mostrarSolucion();
 	}
 
-	private void backtracking(int estacionActual, List<List<Integer>> solucionActual, List<Integer> caminoActual, int costoActual) {
-	    if (solucionActual.size() == grafo.cantidadVertices()-1) {
+	private void backtracking( List<List<Arco>> solucionActual, List<Arco> caminoActual, int costoActual) {
+	    if (solucionActual.size() == grafo.cantidadVertices()) {
 	        if (costoActual < this.costoMejorSolucion) {
 	            costoMejorSolucion = costoActual;
 	            mejorSolucion = new ArrayList<>(solucionActual);
@@ -34,18 +33,18 @@ public class Backtracking {
 	       return;
 	    }
 
-	    Iterator<Integer> it = grafo.obtenerAdyacentes(estacionActual);
+	    Iterator<? extends Arco<?>> it = grafo.obtenerArcos();
 	    while (it.hasNext()) {
-	        int siguienteEstacion = it.next();
-	        if (!caminoActual.contains(siguienteEstacion)) {
-	            caminoActual.add(siguienteEstacion);
-	            int costoTunel = obtenerCostoTunel(estacionActual, siguienteEstacion);
-	            List<Integer> tunel = new ArrayList<>();
-	            tunel.add(estacionActual);
-	            tunel.add(siguienteEstacion);
+	        Arco siguienteArco = it.next();
+	        if (!caminoActual.contains(siguienteArco)) {
+	            caminoActual.add(siguienteArco);
+
+	            int costoTunel =  Integer.parseInt(siguienteArco.getEtiqueta().toString());
+	            List<Arco> tunel = new ArrayList<>();
+				tunel.add(siguienteArco);
 	            solucionActual.add(tunel);
 	            costoActual = costoActual+costoTunel;
-	            backtracking(siguienteEstacion, solucionActual, caminoActual,costoActual);
+	            backtracking( solucionActual, caminoActual,costoActual);
 	            costoActual = costoActual-costoTunel;
 	            solucionActual.remove(solucionActual.size() - 1);
 	            caminoActual.remove(caminoActual.size() - 1);
@@ -53,31 +52,27 @@ public class Backtracking {
 	    }
 	}
 
-	private int obtenerCostoTunel(int estacion1, int estacion2) {
-	    Arco<?> arco = grafo.obtenerArco(estacion1, estacion2);
-	    return arco != null ? Integer.parseInt(arco.getEtiqueta().toString()) : Integer.MAX_VALUE;
-	}
 
 	private void mostrarSolucion() {
 	    System.out.println("Técnica utilizada: Backtracking");
 	    System.out.println("Lista de túneles a construir:");
 
-	    for (List<Integer> tunel : mejorSolucion) {
-	        int estacion1 = tunel.get(0);
-	        int estacion2 = tunel.get(1);
+	    for (List<Arco> tunel : mejorSolucion) {
+	        int estacion1 = tunel.get(0).getVerticeOrigen();
+	        int estacion2 = tunel.get(0).getVerticeDestino();
 	        System.out.print("E" + estacion1 + "-E" + estacion2+",");
 	    }
 	    System.out.println("");
 	    System.out.println("Cantidad de metros totales a construir: " + costoMejorSolucion);
-	    System.out.println("Costo de encontrar la solución: " + calcularCostoSolucion());
+	   // System.out.println("Costo de encontrar la solución: " + calcularCostoSolucion());
 	}
 
 	private int calcularCostoSolucion() {
 	    int costoSolucion = 0;
-	    for (List<Integer> tunel : mejorSolucion) {
-	        int estacion1 = tunel.get(0);
-	        int estacion2 = tunel.get(1);
-	        int costoTunel = obtenerCostoTunel(estacion1, estacion2);
+	    for (List<Arco> tunel : mejorSolucion) {
+			int estacion1 = tunel.get(0).getVerticeOrigen();
+			int estacion2 = tunel.get(0).getVerticeDestino();
+	        int costoTunel = this.costoMejorSolucion;
 	        costoSolucion += costoTunel;
 	    }
 	    return costoSolucion;
