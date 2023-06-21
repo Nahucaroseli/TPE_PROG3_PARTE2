@@ -7,38 +7,42 @@ public class Backtracking {
 	private Grafo<?> grafo;
 	private int costoMejorSolucion;
 	private List<List<Arco>> mejorSolucion;
-	
+	private int cantLlamadasRecursivas;
 	
 	public Backtracking(Grafo<?> grafo) {
 		this.grafo = grafo;
 		this.costoMejorSolucion = Integer.MAX_VALUE;
 		this.mejorSolucion = new ArrayList<>();
+		this.cantLlamadasRecursivas = 0;
 	}
 	
 	public void backtracking() {
 	    List<List<Arco>> solucionActual = new ArrayList<>();
 	    List<Arco> caminoActual = new ArrayList<>();
 	    backtracking( solucionActual, caminoActual, 0);
-
 	    mostrarSolucion();
 	}
 
 	private void backtracking( List<List<Arco>> solucionActual, List<Arco> caminoActual, int costoActual) {
-	    if (solucionActual.size() == grafo.cantidadVertices()) {
+    	this.cantLlamadasRecursivas++;
+	    if (solucionActual.size() <= grafo.cantidadVertices()) {
 	        if (costoActual < this.costoMejorSolucion) {
 	            costoMejorSolucion = costoActual;
 	            mejorSolucion = new ArrayList<>(solucionActual);
+	
 	            return;
 	        }
 	       return;
 	    }
 
 	    Iterator<? extends Arco<?>> it = grafo.obtenerArcos();
-	    while (it.hasNext()) {
+    
+	    while (it.hasNext() && mejorSolucion.size()!= grafo.cantidadVertices()) {
+
 	        Arco siguienteArco = it.next();
 	        if (!caminoActual.contains(siguienteArco)) {
+	        	
 	            caminoActual.add(siguienteArco);
-
 	            int costoTunel =  Integer.parseInt(siguienteArco.getEtiqueta().toString());
 	            List<Arco> tunel = new ArrayList<>();
 				tunel.add(siguienteArco);
@@ -54,8 +58,7 @@ public class Backtracking {
 
 
 	private void mostrarSolucion() {
-	    System.out.println("Técnica utilizada: Backtracking");
-	    System.out.println("Lista de túneles a construir:");
+	    System.out.println("Backtracking");
 
 	    for (List<Arco> tunel : mejorSolucion) {
 	        int estacion1 = tunel.get(0).getVerticeOrigen();
@@ -63,8 +66,8 @@ public class Backtracking {
 	        System.out.print("E" + estacion1 + "-E" + estacion2+",");
 	    }
 	    System.out.println("");
-	    System.out.println("Cantidad de metros totales a construir: " + costoMejorSolucion);
-	   // System.out.println("Costo de encontrar la solución: " + calcularCostoSolucion());
+	    System.out.println(costoMejorSolucion+ " kms");
+	    System.out.println(this.cantLlamadasRecursivas + " llamadas recursivas");
 	}
 
 	private int calcularCostoSolucion() {

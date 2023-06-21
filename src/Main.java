@@ -4,7 +4,7 @@ public class Main {
 	
 	
 	public static void main(String [] args) {
-		GrafoDirigido grafo = new GrafoDirigido();
+		Grafo grafo = new GrafoNoDirigido();
 		/*
 		grafo.agregarVertice(1);
 		grafo.agregarVertice(6);
@@ -32,31 +32,28 @@ public class Main {
 		grafo.agregarArco(6, 5, "6 y 5");
 		grafo.agregarArco(6, 7, "6 y 7");
 		grafo.agregarArco(7, 8, "7 y 8");
+		}		
+
+	
 		*/
 		
 		
-		String path = "C:\\Users\\Nahue\\eclipse-workspace\\Prog3_TPE\\src\\datasets\\dataset2.txt";
-		String path2 = "C:\\Users\\s7\\IdeaProjects\\TPE P2\\src\\datasets\\dataset1.txt";
-		CSVReader reader = new CSVReader(path2);
-		GrafoNoDirigido grafoNoDirigido = new GrafoNoDirigido();
-
-		reader.read(grafoNoDirigido);
-
-		Backtracking back = new Backtracking(grafoNoDirigido);
+		String path = "src\\datasets\\dataset1.txt";
+		CSVReader reader = new CSVReader(path);
+		reader.read(grafo);
+		Greedy greedy = new Greedy(grafo);
+		greedy.greedy();
+		System.out.println("");
+		Backtracking back = new Backtracking(grafo);
 		back.backtracking();
-		
-		
-	/*
+		/*
+		/*
 		ServicioDFS dfs = new ServicioDFS(grafo);
 		ServicioBFS bfs = new ServicioBFS(grafo);
 		System.out.println(dfs.dfsForest());
 		System.out.println(bfs.bfsForest());
-
-
-		ServicioCaminos caminos = new ServicioCaminos(grafo,2,6,4);
-		System.out.println(caminos.caminos());
-		*/
-
+	
+	*/
 	}
 
 }

@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CSVReader {
-
+	
 private String path;
 	
 	public CSVReader(String path) {
 		this.path = path;
 	}
 	
-	public void read(GrafoNoDirigido grafo) {
+	public void read(Grafo grafo) {
 		
 		// Obtengo una lista con las lineas del archivo
 		// lines.get(0) tiene la primer linea del archivo
