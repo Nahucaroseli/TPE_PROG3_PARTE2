@@ -30,6 +30,7 @@ private Grafo<?> grafo;
 	
 	
 	private void bfs(int vertice, List<Integer> vertices,List<Integer> fila, Set<Integer> visitados) {
+		vertices.add(vertice);
 		visitados.add(vertice);
 		fila.add(vertice);
 		while(!fila.isEmpty()) {

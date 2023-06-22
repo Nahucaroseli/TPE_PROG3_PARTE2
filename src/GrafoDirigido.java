@@ -79,7 +79,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	*/
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
-		if (contieneVertice(verticeId1) && contieneVertice(verticeId2)) {
+		if (contieneVertice(verticeId1) && contieneVertice(verticeId2) && !existeArco(verticeId1,verticeId2)) {
 			Set<Arco<T>> adyacentes = mapa.get(verticeId1);
 			if (adyacentes.add(new Arco<>(verticeId1, verticeId2, etiqueta))) {
 				cantArcos++;

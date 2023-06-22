@@ -44,7 +44,7 @@ public class ServicioCaminos {
 	    while (it.hasNext()) {
 	        int verticeSiguiente = it.next();
 	        Arco<?> arco = new Arco<>(v, verticeSiguiente, null);
-	        if (!arcoVisitado(arco, arcosVisitados)) {
+	        if (!arcosVisitados.contains(arco)) {
 	        	arcosVisitados.add(arco);
 	        	recorrido.add(verticeSiguiente);
 	            caminosGrafo(verticeSiguiente, arcosVisitados, caminos, recorrido, cantArcos + 1);
@@ -53,15 +53,6 @@ public class ServicioCaminos {
 	        }
 	    }
 	    arcosVisitados.remove(new Arco<>(recorrido.get(recorrido.size() - 1), v, null));
-	}
-
-	private boolean arcoVisitado(Arco<?> arco, Set<Arco<?>> arcosVisitados) {
-	    for (Arco<?> visitado : arcosVisitados) {
-	        if (visitado.getVerticeOrigen() == arco.getVerticeOrigen() && visitado.getVerticeDestino() == arco.getVerticeDestino()) {
-	            return true;
-	        }
-	    }
-	    return false;
 	}
 
 }

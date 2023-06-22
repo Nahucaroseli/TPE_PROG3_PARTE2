@@ -20,6 +20,15 @@ public class Arco<T> {
 	public T getEtiqueta() {
 		return etiqueta;
 	}
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "Arco [verticeOrigen=" + verticeOrigen + ", verticeDestino=" + verticeDestino + ", etiqueta=" + etiqueta
+				+ "]";
+	}
 
 	@Override
 	public boolean equals(Object o) {
