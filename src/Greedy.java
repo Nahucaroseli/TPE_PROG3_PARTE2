@@ -31,12 +31,12 @@ public class Greedy {
 	private List<List<Arco>> Greedy(){
 		Iterator<?> conjunto = grafo.obtenerArcos();
 		int costoTotal =  0;
-		while(conjunto.hasNext() && mejorSolucion.size()!= grafo.cantidadVertices()){
+		while(conjunto.hasNext() && !solucion(solucion)){
 
 			List<Arco>lista = seleccion();
 			solucion.add(lista.get(0));
 			mejorSolucion.add(lista);
-			costoTotal += Integer.parseInt(lista.get(0).getEtiqueta().toString());	
+			costoTotal += Integer.parseInt(lista.get(0).getEtiqueta().toString());
 		}
 		costoMejorSolucion =costoTotal;
 		if(mejorSolucion.size()== grafo.cantidadVertices()) {
@@ -55,9 +55,28 @@ public class Greedy {
 	    }
 	    System.out.println("");
 	    System.out.println(costoMejorSolucion+ " kms");
-	    System.out.println(this.cantIteraciones + " iteraciones");
+	    System.out.println(this.cantIteraciones + " Conjuntos elegidos");
 	}
 
+	private boolean solucion(List<Arco> a){
+		UnionFind union = new UnionFind(grafo.cantidadVertices());
+		for (int i = 0; i < a.size(); i++) {
+			int vertice1 = a.get(i).getVerticeOrigen();
+			int vertice2 = a.get(i).getVerticeDestino();
+			int r1 = union.find(vertice1-1);
+			int r2 = union.find(vertice2-1);
+			union.union(r1,r2);
+		}
+		int r = union.find(0);
+		boolean f = true;
+		for (int i = 0; i < grafo.cantidadVertices(); i++) {
+			if(union.find(i) != r){
+				f = false;
+				break;
+			}
+		}
+		return f;
+	}
 
 	private List<Arco> seleccion() {
 		List<Arco> seleccionados = new ArrayList<>();
