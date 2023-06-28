@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Arco<T> {
 	private int verticeOrigen;
 	private int verticeDestino;
@@ -40,4 +42,8 @@ public class Arco<T> {
 		}
 		return false;
 	}
+	 @Override
+	    public int hashCode() {
+	        return Objects.hash(verticeOrigen, verticeDestino);
+	    }
 }

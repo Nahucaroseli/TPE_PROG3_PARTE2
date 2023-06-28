@@ -50,21 +50,14 @@ public class GrafoDirigido<T> implements Grafo<T> {
 				Iterator<Arco<T>> it = arcosAdyacentes.iterator();
 				while (it.hasNext()) {
 					Arco<T> arco = it.next();
-					if (arco.getVerticeDestino() == verticeId) {
+					if (arco.getVerticeDestino() == verticeId || arco.getVerticeOrigen() == verticeId) {
 						it.remove();
 						cantArcos--;
 					}
 				}
 			}
-
 			// Aca se borran todos los arcos que tienen a verticeId como origen
-			Set<Arco<T>> arcos = mapa.remove(verticeId);
-			for (Arco<T> arco : arcos) {
-				Set<Arco<T>> adyacentes = mapa.get(arco.getVerticeDestino());
-				adyacentes.remove(new Arco<>(verticeId, arco.getVerticeDestino(), arco.getEtiqueta()));
-				cantArcos--;
-			}
-
+			mapa.remove(verticeId);
 			cantVertices--;
 		}
 
@@ -79,7 +72,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	*/
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
-		if (contieneVertice(verticeId1) && contieneVertice(verticeId2) && !existeArco(verticeId1,verticeId2)) {
+		if (contieneVertice(verticeId1) && contieneVertice(verticeId2)) {
 			Set<Arco<T>> adyacentes = mapa.get(verticeId1);
 			if (adyacentes.add(new Arco<>(verticeId1, verticeId2, etiqueta))) {
 				cantArcos++;
@@ -88,10 +81,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	}
 	/**
-	* Complejidad: O(n), en este metodo la complejidad es O(n), ya que hay que buscar la lista 
-	* de arcos adyacentes al verticeId1, y luego buscar el arco que va desde verticeId1 a verticeId2 dentro
-	* de la lista. En el peor caso, se tendra que recorrer toda la lista para borrar el arco existente entre
-	* los dos vertices.
+	* Complejidad: O(1), en este metodo la complejidad es O(1), ya que no se recorre la lista linealmente, sino que se usa
+	* el metodo remove del Set.
 	*/
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {

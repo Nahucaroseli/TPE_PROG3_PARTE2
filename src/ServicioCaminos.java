@@ -32,7 +32,6 @@ public class ServicioCaminos {
 	}
 
 	private void caminosGrafo(int v, Set<Arco<?>> arcosVisitados, List<List<Integer>> caminos, List<Integer> recorrido, int cantArcos) {
-		arcosVisitados.add(new Arco<>(recorrido.get(recorrido.size() - 1), v, null));
 	    if (cantArcos > lim) {
 	        return;
 	    }
@@ -52,7 +51,6 @@ public class ServicioCaminos {
 	            arcosVisitados.remove(arco);
 	        }
 	    }
-	    arcosVisitados.remove(new Arco<>(recorrido.get(recorrido.size() - 1), v, null));
 	}
 
 }

@@ -41,18 +41,18 @@ public class Main {
 		String path = "src\\datasets\\dataset1.txt";
 		CSVReader reader = new CSVReader(path);
 		reader.read(grafo);
-		Greedy greedy = new Greedy(grafo);
-		greedy.greedy();
+
 		System.out.println("");
 		Backtracking back = new Backtracking(grafo);
 		back.backtracking();
 		/*
-		/*
+		/*		
 		ServicioDFS dfs = new ServicioDFS(grafo);
 		ServicioBFS bfs = new ServicioBFS(grafo);
 		System.out.println(dfs.dfsForest());
 		System.out.println(bfs.bfsForest());
-	
+			Greedy greedy = new Greedy(grafo);
+		greedy.greedy();
 	*/
 	}
 

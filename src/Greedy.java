@@ -32,7 +32,7 @@ public class Greedy {
 		Iterator<?> conjunto = grafo.obtenerArcos();
 		int costoTotal =  0;
 		while(conjunto.hasNext() && mejorSolucion.size()!= grafo.cantidadVertices()){
-			this.cantIteraciones++;
+
 			List<Arco>lista = seleccion();
 			solucion.add(lista.get(0));
 			mejorSolucion.add(lista);
@@ -74,6 +74,7 @@ public class Greedy {
 	    		}
 		    }   
 	   seleccionados.add(mejorResultado);
+	   this.cantIteraciones++;
 	   return seleccionados;
 	}
 }
