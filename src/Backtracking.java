@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,13 +9,13 @@ public class Backtracking {
 	private Grafo<?> grafo;
 	private int costoMejorSolucion;
 	private List<List<Arco>> mejorSolucion;
-	private int cantLlamadasRecursivas;
+	private BigInteger cantLlamadasRecursivas;
 	
 	public Backtracking(Grafo<?> grafo) {
 		this.grafo = grafo;
 		this.costoMejorSolucion = Integer.MAX_VALUE;
 		this.mejorSolucion = new ArrayList<>();
-		this.cantLlamadasRecursivas = 0;
+		this.cantLlamadasRecursivas = new BigInteger("1");
 	}
 	
 	public void backtracking() {
@@ -23,16 +24,18 @@ public class Backtracking {
 	    backtracking( solucionActual, visitados, 0);
 	    mostrarSolucion();
 	}
+
 	private void backtracking( List<List<Arco>> solucionActual, List<Arco> visitados, int costoActual) {
-    	 if (solucion(visitados)) {
-    		 if(costoActual< this.costoMejorSolucion) {
-    			 costoMejorSolucion = costoActual;
-				 mejorSolucion = new ArrayList<>(solucionActual);
-				 this.cantLlamadasRecursivas++;
-     	        return;
-    		 }
-    	
-    	 }
+		 cantLlamadasRecursivas=this.cantLlamadasRecursivas.add(new BigInteger("1"));
+		 if (solucion(visitados)) {
+	   		 if(costoActual < this.costoMejorSolucion) {
+	   			 costoMejorSolucion = costoActual;
+	   			 mejorSolucion = new ArrayList<>(solucionActual);
+	    	     return;
+	   		 }
+	   		 return;
+   	
+		 }
 	    Iterator<? extends Arco<?>> it = grafo.obtenerArcos();
 	    while (it.hasNext()) {
 	        Arco siguienteArco = it.next();
@@ -43,12 +46,13 @@ public class Backtracking {
 				tunel.add(siguienteArco);
 	            solucionActual.add(tunel);
 	            costoActual = costoActual+costoTunel;
-	            if (costoActual < this.costoMejorSolucion) {
+	            
+	            if (costoActual<this.costoMejorSolucion) {//poda
 	            	backtracking(solucionActual, visitados,costoActual);
 	            }
- 	            solucionActual.remove(solucionActual.size() - 1);
- 	            visitados.remove(siguienteArco);
- 	            costoActual = costoActual-costoTunel;
+	            solucionActual.remove(solucionActual.size() - 1);
+	            visitados.remove(siguienteArco);
+	            costoActual = costoActual-costoTunel;
 	           
 	        }
 	    }
@@ -74,6 +78,7 @@ public class Backtracking {
 		return f;
 	}
 
+
 	private void mostrarSolucion() {
 	    System.out.println("Backtracking");
 	    for (List<Arco> tunel : mejorSolucion) {
@@ -83,16 +88,16 @@ public class Backtracking {
 	    }
 	    System.out.println("");
 	    System.out.println(costoMejorSolucion+ " kms");
-	    System.out.println(this.cantLlamadasRecursivas + " Estados modificados");
+	    System.out.println(this.cantLlamadasRecursivas + " estados modificados");
 	}
 
 	private int calcularCostoSolucion() {
-	    int costoSolucion = 0;
+		int costoSolucion =0;
 	    for (List<Arco> tunel : mejorSolucion) {
 			int estacion1 = tunel.get(0).getVerticeOrigen();
 			int estacion2 = tunel.get(0).getVerticeDestino();
-	        int costoTunel = this.costoMejorSolucion;
-	        costoSolucion += costoTunel;
+			int costoTunel = this.costoMejorSolucion;
+	        costoSolucion+=costoTunel;
 	    }
 	    return costoSolucion;
 	}

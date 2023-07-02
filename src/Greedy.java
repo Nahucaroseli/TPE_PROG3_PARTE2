@@ -78,6 +78,8 @@ public class Greedy {
 		return f;
 	}
 
+
+
 	private List<Arco> seleccion() {
 		List<Arco> seleccionados = new ArrayList<>();
 	    Arco<?> mejorResultado = null;
